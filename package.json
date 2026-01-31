@@ -1,0 +1,35 @@
+{
+  "name": "zovo-indexer",
+  "version": "1.0.0",
+  "description": "Safe, free indexing tool for Extension Insiders using official APIs",
+  "type": "module",
+  "bin": {
+    "zovo-indexer": "./dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx src/cli.ts",
+    "start": "node dist/cli.js"
+  },
+  "dependencies": {
+    "better-sqlite3": "^9.0.0",
+    "commander": "^11.0.0",
+    "dotenv": "^16.0.0",
+    "fast-xml-parser": "^5.3.4",
+    "googleapis": "^126.0.0"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.0",
+    "@types/node": "^20.0.0",
+    "tsx": "^4.0.0",
+    "typescript": "^5.0.0"
+  },
+  "keywords": [
+    "seo",
+    "indexing",
+    "google",
+    "indexnow",
+    "sitemap"
+  ],
+  "license": "MIT"
+}
