@@ -1,3 +1,11 @@
+/**
+ * Zovo Indexer - Database Module
+ * SQLite-based storage for submission history and daily rate limiting
+ * 
+ * @module db
+ * @requires better-sqlite3
+ */
+
 import Database, { Database as DatabaseType } from 'better-sqlite3';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -31,6 +39,18 @@ db.exec(`
   )
 `);
 
+/**
+ * Record of a URL submission
+ * @interface Submission
+ * @property {number} id - Unique submission ID
+ * @property {string} url - The submitted URL
+ * @property {string} service - Service used (google, indexnow, etc.)
+ * @property {string} status - Status of submission (success, error, rate_limited)
+ * @property {string | null} message - Optional message or error details
+ * @property {string} submitted_at - Timestamp of submission
+ * @property {string | null} indexed_at - Timestamp when URL was indexed
+ */
+
 export interface Submission {
   id: number;
   url: string;
@@ -41,6 +61,13 @@ export interface Submission {
   indexed_at: string | null;
 }
 
+/**
+ * Log a URL submission to the database
+ * @param {string} url - The URL that was submitted
+ * @param {string} service - The indexing service used
+ * @param {string} status - Status of the submission
+ * @param {string} [message] - Optional message or error details
+ */
 export function logSubmission(
   url: string,
   service: string,
@@ -53,18 +80,33 @@ export function logSubmission(
   `).run(url, service, status, message || null);
 }
 
+/**
+ * Get recent submission history
+ * @param {number} [limit=100] - Maximum number of records to return
+ * @returns {Submission[]} Array of recent submissions
+ */
 export function getSubmissionHistory(limit: number = 100): Submission[] {
   return db
     .prepare('SELECT * FROM submissions ORDER BY submitted_at DESC LIMIT ?')
     .all(limit) as Submission[];
 }
 
+/**
+ * Get submissions for a specific service
+ * @param {string} service - The service name to filter by
+ * @returns {Submission[]} Array of submissions for the service
+ */
 export function getSubmissionsByService(service: string): Submission[] {
   return db
     .prepare('SELECT * FROM submissions WHERE service = ? ORDER BY submitted_at DESC')
     .all(service) as Submission[];
 }
 
+/**
+ * Get the number of submissions made today for a service
+ * @param {string} service - The service name
+ * @returns {number} Count of submissions today
+ */
 export function getTodayCount(service: string): number {
   const today = new Date().toISOString().substring(0, 10);
   const result = db
@@ -73,6 +115,10 @@ export function getTodayCount(service: string): number {
   return result?.count || 0;
 }
 
+/**
+ * Increment today's submission count for a service
+ * @param {string} service - The service name
+ */
 export function incrementTodayCount(service: string): void {
   const today = new Date().toISOString().substring(0, 10);
   db.prepare(`
@@ -82,6 +128,10 @@ export function incrementTodayCount(service: string): void {
   `).run(service, today);
 }
 
+/**
+ * Get submission statistics for all services
+ * @returns {{ service: string; total: number; today: number }[]} Array of stats per service
+ */
 export function getStats(): { service: string; total: number; today: number }[] {
   const today = new Date().toISOString().substring(0, 10);
   const stats = db.prepare(`

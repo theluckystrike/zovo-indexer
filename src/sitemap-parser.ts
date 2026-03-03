@@ -1,4 +1,47 @@
+/**
+ * Zovo Indexer - Sitemap Parser
+ * Handles parsing of XML sitemaps (standard and index sitemaps)
+ * 
+ * @module sitemap-parser
+ * @requires fast-xml-parser
+ */
+
 import { XMLParser } from 'fast-xml-parser';
+
+/**
+ * URL entry in a sitemap
+ * @interface UrlEntry
+ * @property {string} loc - The URL location
+ * @property {string} [lastmod] - Last modification date
+ * @property {string} [changefreq] - Change frequency
+ * @property {string} [priority] - Priority value
+ */
+
+/**
+ * Sitemap entry in a sitemap index
+ * @interface SitemapEntry
+ * @property {string} loc - The sitemap URL
+ * @property {string} [lastmod] - Last modification date
+ */
+
+/**
+ * Parsed URL set structure
+ * @interface UrlSet
+ * @property {UrlEntry | UrlEntry[]} url - URL entries
+ */
+
+/**
+ * Parsed sitemap index structure
+ * @interface SitemapIndex
+ * @property {SitemapEntry | SitemapEntry[]} sitemap - Sitemap entries
+ */
+
+/**
+ * Internal parsed sitemap structure
+ * @interface ParsedSitemap
+ * @property {UrlSet} [urlset] - URL set (standard sitemap)
+ * @property {SitemapIndex} [sitemapindex] - Sitemap index (sitemap of sitemaps)
+ */
 
 interface UrlEntry {
   loc: string;
@@ -25,6 +68,12 @@ interface ParsedSitemap {
   sitemapindex?: SitemapIndex;
 }
 
+/**
+ * Extract all URLs from a sitemap or sitemap index
+ * Recursively parses child sitemaps if it's a sitemap index
+ * @param {string} sitemapUrl - URL of the sitemap to parse
+ * @returns {Promise<string[]>} Array of URLs found in the sitemap
+ */
 export async function getUrlsFromSitemap(sitemapUrl: string): Promise<string[]> {
   console.log(`Fetching sitemap: ${sitemapUrl}`);
 
@@ -68,6 +117,11 @@ export async function getUrlsFromSitemap(sitemapUrl: string): Promise<string[]> 
   return [];
 }
 
+/**
+ * Extract URLs from a sitemap with metadata (lastmod, changefreq, priority)
+ * @param {string} sitemapUrl - URL of the sitemap to parse
+ * @returns {Promise<UrlEntry[]>} Array of URL entries with metadata
+ */
 export async function getUrlsWithMeta(
   sitemapUrl: string
 ): Promise<UrlEntry[]> {

@@ -1,4 +1,19 @@
+/**
+ * Zovo Indexer - Sitemap Ping Service
+ * Notifies search engines about sitemap updates via ping endpoints
+ * 
+ * @module sitemap-ping
+ */
+
 import { logSubmission } from './db.js';
+
+/**
+ * Result of a sitemap ping operation
+ * @interface PingResult
+ * @property {string} endpoint - Search engine name (Google, Bing)
+ * @property {number | 'error'} status - HTTP status code or 'error'
+ * @property {string} message - Human-readable result message
+ */
 
 export interface PingResult {
   endpoint: string;
@@ -6,6 +21,11 @@ export interface PingResult {
   message: string;
 }
 
+/**
+ * Ping Google and Bing to notify them about a sitemap
+ * @param {string} sitemapUrl - URL of the sitemap to ping
+ * @returns {Promise<PingResult[]>} Array of ping results for each search engine
+ */
 export async function pingSitemap(sitemapUrl: string): Promise<PingResult[]> {
   const endpoints = [
     {
@@ -47,6 +67,11 @@ export async function pingSitemap(sitemapUrl: string): Promise<PingResult[]> {
   return results;
 }
 
+/**
+ * Ping multiple sitemaps sequentially
+ * @param {string[]} sitemapUrls - Array of sitemap URLs to ping
+ * @returns {Promise<Map<string, PingResult[]>>} Map of sitemap URL to its ping results
+ */
 export async function pingMultipleSitemaps(sitemapUrls: string[]): Promise<Map<string, PingResult[]>> {
   const results = new Map<string, PingResult[]>();
 
