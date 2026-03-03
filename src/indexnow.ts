@@ -1,3 +1,10 @@
+/**
+ * Zovo Indexer - IndexNow Protocol Integration
+ * Handles URL submission via IndexNow API (supported by Bing, Yandex, etc.)
+ * 
+ * @module indexnow
+ */
+
 import { logSubmission, getTodayCount, incrementTodayCount } from './db.js';
 
 const INDEXNOW_ENDPOINTS = [
@@ -7,6 +14,22 @@ const INDEXNOW_ENDPOINTS = [
 ];
 
 const DAILY_LIMIT = 10000;
+
+/**
+ * Configuration for IndexNow submissions
+ * @interface IndexNowConfig
+ * @property {string} host - The host domain (e.g., "example.com")
+ * @property {string} key - The verification key
+ * @property {string} [keyLocation] - Optional URL where the key is hosted
+ */
+
+/**
+ * Result of an IndexNow submission
+ * @interface IndexNowResult
+ * @property {string} endpoint - The endpoint that was contacted
+ * @property {number | 'error'} status - HTTP status code or 'error'
+ * @property {string} message - Human-readable status message
+ */
 
 export interface IndexNowConfig {
   host: string;
@@ -20,6 +43,16 @@ export interface IndexNowResult {
   message: string;
 }
 
+/**
+ * Validate IndexNow configuration
+ * @param {IndexNowConfig} config - Configuration to validate
+ * @throws {Error} If required configuration is missing
+ */
+/**
+ * Validate IndexNow configuration
+ * @param {IndexNowConfig} config - Configuration to validate
+ * @throws {Error} If required configuration is missing
+ */
 export function validateConfig(config: IndexNowConfig): void {
   if (!config.host) {
     throw new Error('INDEXNOW_HOST not set. Add it to your .env file.');
@@ -32,6 +65,12 @@ export function validateConfig(config: IndexNowConfig): void {
   }
 }
 
+/**
+ * Submit multiple URLs for indexing via IndexNow protocol
+ * @param {string[]} urls - Array of URLs to submit
+ * @param {IndexNowConfig} config - IndexNow configuration
+ * @returns {Promise<IndexNowResult[]>} Array of submission results
+ */
 export async function submitIndexNow(
   urls: string[],
   config: IndexNowConfig
@@ -102,6 +141,12 @@ export async function submitIndexNow(
   return results;
 }
 
+/**
+ * Submit a single URL for indexing via IndexNow GET request
+ * @param {string} url - URL to submit
+ * @param {IndexNowConfig} config - IndexNow configuration
+ * @returns {Promise<IndexNowResult[]>} Array of submission results
+ */
 export async function submitSingleUrl(
   url: string,
   config: IndexNowConfig
@@ -156,6 +201,10 @@ function getStatusText(status: number): string {
   }
 }
 
+/**
+ * Generate a random IndexNow key for verification
+ * @returns {string} A 32-character hexadecimal key
+ */
 export function generateKey(): string {
   const chars = 'abcdef0123456789';
   let key = '';
