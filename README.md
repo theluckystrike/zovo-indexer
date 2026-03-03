@@ -102,20 +102,7 @@ zovo-indexer file urls.txt
 zovo-indexer indexnow https://example.com/page
 ```
 
-### Using the TypeScript API
-
-```typescript
-import { submitToGoogle, submitToIndexNow } from 'zovo-indexer';
-
-// Submit to Google Indexing API
-await submitToGoogle('https://example.com/page');
-
-// Submit to IndexNow (Bing, Yandex, etc.)
-await submitToIndexNow('https://example.com/page');
-
-// Process sitemap
-await processSitemap('https://example.com/sitemap.xml');
-```
+> **Note:** This tool is designed for CLI usage. For programmatic access, import and use the underlying modules directly from the `src/` directory.
 
 ## Commands
 
@@ -187,7 +174,7 @@ Part of the [Zovo](https://zovo.one) developer tools family — privacy-first Ch
 
 - [zovo-permissions-scanner](https://github.com/theluckystrike/zovo-permissions-scanner) - Privacy scanner for Chrome extensions
 - [zovo-extension-template](https://github.com/theluckystrike/zovo-extension-template) - Boilerplate for building privacy-first Chrome extensions
-- [zovo-types-webext](https://github.com/theluckrike/zovo-types-webext) - Comprehensive TypeScript type definitions
+- [zovo-types-webext](https://github.com/theluckystrike/zovo-types-webext) - Comprehensive TypeScript type definitions
 - [zovo-content](https://github.com/theluckystrike/zovo-content) - Marketing content for Zovo extensions
 - [zovo-tab-suspender-public](https://github.com/theluckystrike/zovo-tab-suspender-public) - Memory-saving tab suspenders
 
