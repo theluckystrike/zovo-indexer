@@ -106,26 +106,38 @@ await pingSitemap('https://example.com/sitemap.xml');
 
 ## API Reference
 
-### GoogleIndexer
+### Google Indexing API
 
-| Method | Description |
-|--------|-------------|
-| `submitURL(url)` | Submit a URL for indexing |
-| `getStatus(url)` | Check indexing status |
+| Function | Description |
+|----------|-------------|
+| `requestIndexing(urls)` | Submit URLs for indexing (accepts array) |
+| `requestRemoval(urls)` | Request removal of URLs from index |
+| `checkCredentials()` | Verify Google service account credentials |
+| `getAuth()` | Get authenticated Google OAuth2 client |
+| `getNotificationStatus(url)` | Check indexing status for a URL |
 
 ### IndexNow
 
-| Method | Description |
-|--------|-------------|
-| `submitURL(url)` | Submit single URL |
-| `submitURLs(urls)` | Submit multiple URLs |
+| Function | Description |
+|----------|-------------|
+| `submitIndexNow(urls, config)` | Submit URLs to IndexNow API |
+| `submitSingleUrl(url, config)` | Submit a single URL to IndexNow |
+| `generateKey()` | Generate a key for IndexNow verification |
+| `validateConfig(config)` | Validate IndexNow configuration |
 
-### SitemapParser
+### Sitemap Parser
 
-| Method | Description |
-|--------|-------------|
-| `parse(url)` | Parse XML sitemap |
-| `getURLs()` | Extract all URLs |
+| Function | Description |
+|----------|-------------|
+| `getUrlsFromSitemap(url)` | Parse XML sitemap and extract URLs |
+| `getUrlsWithMeta(url)` | Parse sitemap with metadata (lastmod, priority, etc.) |
+
+### Sitemap Ping
+
+| Function | Description |
+|----------|-------------|
+| `pingSitemap(url)` | Notify search engines about sitemap |
+| `pingMultipleSitemaps(urls)` | Notify multiple sitemaps |
 
 ## Development Commands
 
