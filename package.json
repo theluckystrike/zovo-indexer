@@ -1,8 +1,28 @@
 {
   "name": "zovo-indexer",
   "version": "1.0.0",
-  "description": "Safe, free indexing tool for Extension Insiders using official APIs",
+  "description": "Safe, free indexing tool for Extension Insiders using official APIs - Index your Chrome extensions to Google Search Console using official indexing APIs",
   "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./google-indexer": {
+      "import": "./dist/google-indexer.js",
+      "types": "./dist/google-indexer.d.ts"
+    },
+    "./indexnow": {
+      "import": "./dist/indexnow.js",
+      "types": "./dist/indexnow.d.ts"
+    },
+    "./sitemap-parser": {
+      "import": "./dist/sitemap-parser.js",
+      "types": "./dist/sitemap-parser.d.ts"
+    }
+  },
   "bin": {
     "zovo-indexer": "./dist/cli.js"
   },
@@ -32,7 +52,12 @@
     "indexing",
     "google",
     "indexnow",
-    "sitemap"
+    "sitemap",
+    "chrome-extension"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/theluckystrike/zovo-indexer.git"
+  },
   "license": "MIT"
 }

@@ -76,21 +76,32 @@ INDEXNOW_KEY=your-api-key
 
 ### Programmatic Usage
 
+The library exports functions for Google Indexing API, IndexNow, and sitemap parsing:
+
 ```typescript
-import { GoogleIndexer } from './google-indexer.js';
-import { IndexNow } from './indexnow.js';
-import { parseSitemap } from './sitemap-parser.js';
+import { 
+  requestIndexing, 
+  getAuth,
+  submitIndexNow,
+  getUrlsFromSitemap,
+  pingSitemap
+} from 'zovo-indexer';
 
 // Parse sitemap URLs
-const urls = await parseSitemap('https://example.com/sitemap.xml');
+const urls = await getUrlsFromSitemap('https://example.com/sitemap.xml');
 
 // Submit to Google Indexing
-const indexer = new GoogleIndexer(serviceAccount);
-await indexer.submitURL('https://example.com/new-page');
+const auth = await getAuth();
+await requestIndexing(['https://example.com/new-page']);
 
 // Submit to IndexNow
-const indexnow = new IndexNow('your-api-key');
-await indexnow.submitURLs(['https://example.com/page1', 'https://example.com/page2']);
+await submitIndexNow(['https://example.com/page'], {
+  host: 'example.com',
+  key: 'your-indexnow-key'
+});
+
+// Ping search engines about sitemap
+await pingSitemap('https://example.com/sitemap.xml');
 ```
 
 ## API Reference
