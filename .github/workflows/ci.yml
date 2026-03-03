@@ -20,7 +20,7 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm ci
+        run: npm install
 
       - name: Run linter
         run: npm run lint || true
@@ -43,7 +43,7 @@ jobs:
           sudo apt-get install -y build-essential python3
 
       - name: Install dependencies
-        run: npm ci
+        run: npm install
 
       - name: Run build
         run: npm run build
